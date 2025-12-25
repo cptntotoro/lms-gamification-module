@@ -6,16 +6,19 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ru.misis.gamification.events.constants.EventConstants;
+import ru.misis.gamification.events.domain.extenal.AssignmentSubmittedEvent;
+import ru.misis.gamification.events.domain.extenal.CourseEnrolledEvent;
+import ru.misis.gamification.events.domain.extenal.ForumPostCreatedEvent;
+import ru.misis.gamification.events.domain.extenal.TaskCompletedEvent;
+import ru.misis.gamification.events.domain.extenal.TestPassedEvent;
+import ru.misis.gamification.events.domain.internal.LevelUpEvent;
+import ru.misis.gamification.events.domain.internal.PointsChangedEvent;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
  * Базовый интерфейс для всех событий геймификации
- *
- * <p>
- * Определяет общий контракт для всех событий в системе геймификации.
- * </p>
  *
  * @see TaskCompletedEvent
  * @see TestPassedEvent
@@ -30,18 +33,20 @@ import java.util.UUID;
         include = JsonTypeInfo.As.EXISTING_PROPERTY
 )
 @JsonSubTypes({
+        // Внешние события
         @JsonSubTypes.Type(value = TaskCompletedEvent.class, name = EventConstants.TASK_COMPLETED),
         @JsonSubTypes.Type(value = TestPassedEvent.class, name = EventConstants.TEST_PASSED),
         @JsonSubTypes.Type(value = CourseEnrolledEvent.class, name = EventConstants.COURSE_ENROLLED),
         @JsonSubTypes.Type(value = ForumPostCreatedEvent.class, name = EventConstants.FORUM_POST_CREATED),
-        @JsonSubTypes.Type(value = AssignmentSubmittedEvent.class, name = EventConstants.ASSIGNMENT_SUBMITTED)
+        @JsonSubTypes.Type(value = AssignmentSubmittedEvent.class, name = EventConstants.ASSIGNMENT_SUBMITTED),
+
+        // Внутренние события
+        @JsonSubTypes.Type(value = PointsChangedEvent.class, name = EventConstants.POINTS_CHANGED),
+        @JsonSubTypes.Type(value = LevelUpEvent.class, name = EventConstants.LEVEL_UP)
 })
 @JsonSerialize
 @JsonDeserialize
-public sealed interface GamificationEvent
-        permits TaskCompletedEvent, TestPassedEvent,
-        CourseEnrolledEvent, ForumPostCreatedEvent,
-        AssignmentSubmittedEvent {
+public interface GamificationEvent {
 
     /**
      * Возвращает уникальный идентификатор события (UUID)

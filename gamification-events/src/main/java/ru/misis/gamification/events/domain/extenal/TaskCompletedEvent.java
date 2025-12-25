@@ -1,33 +1,36 @@
-package ru.misis.gamification.events.domain;
+package ru.misis.gamification.events.domain.extenal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import ru.misis.gamification.events.constants.EventConstants;
+import ru.misis.gamification.events.domain.GamificationEvent;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Событие создания поста на форуме пользователем
+ * Событие завершения задачи пользователем
  *
  * <p>
- * Генерируется когда пользователь создает новый пост в разделе форума.
- * Содержит информацию о созданном посте и связанной теме обсуждения.
+ * Генерируется когда пользователь успешно завершает задание в системе LMS.
+ * Содержит информацию о выполненной задаче и набранных баллах.
  * </p>
  *
  * @param eventId    Уникальный идентификатор события
  * @param userId     Идентификатор пользователя
  * @param occurredAt Время возникновения события
- * @param postId     Идентификатор созданного поста
- * @param topicId    Идентификатор темы форума
+ * @param taskId     Идентификатор выполненной задачи
+ * @param score      Количество набранных баллов
  *
  * @see GamificationEvent
- * @see EventConstants#FORUM_POST_CREATED
+ * @see EventConstants#TASK_COMPLETED
  */
-public record ForumPostCreatedEvent(
+public record TaskCompletedEvent(
         @JsonProperty("eventId")
         @NotNull(message = "eventId не может быть null")
         UUID eventId,
@@ -43,24 +46,24 @@ public record ForumPostCreatedEvent(
         LocalDateTime occurredAt,
 
         // Специфичные поля
-        @JsonProperty("postId")
-        @NotBlank(message = "postId не может быть пустым")
-        @Size(min = 1, max = 50, message = "postId должен быть от 1 до 50 символов")
-        String postId,
+        @JsonProperty("taskId")
+        @NotBlank(message = "taskId не может быть пустым")
+        @Size(min = 1, max = 50, message = "taskId должен быть от 1 до 50 символов")
+        String taskId,
 
-        @JsonProperty("topicId")
-        @NotBlank(message = "topicId не может быть пустым")
-        @Size(min = 1, max = 50, message = "topicId должен быть от 1 до 50 символов")
-        String topicId
+        @JsonProperty("score")
+        @Min(value = EventConstants.MIN_SCORE, message = "score не может быть меньше {value}")
+        @Max(value = EventConstants.MAX_SCORE, message = "score не может быть больше {value}")
+        int score
 ) implements GamificationEvent {
 
     /**
      * {@inheritDoc}
      *
-     * @return {@link EventConstants#FORUM_POST_CREATED}
+     * @return {@link EventConstants#TASK_COMPLETED}
      */
     @Override
     public String type() {
-        return EventConstants.FORUM_POST_CREATED;
+        return EventConstants.TASK_COMPLETED;
     }
 }
