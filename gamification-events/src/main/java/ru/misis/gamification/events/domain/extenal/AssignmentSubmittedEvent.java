@@ -1,4 +1,4 @@
-package ru.misis.gamification.events.domain;
+package ru.misis.gamification.events.domain.extenal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import ru.misis.gamification.events.constants.EventConstants;
+import ru.misis.gamification.events.domain.GamificationEvent;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

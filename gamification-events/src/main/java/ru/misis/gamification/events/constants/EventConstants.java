@@ -33,7 +33,40 @@ public final class EventConstants {
      */
     public static final String ASSIGNMENT_SUBMITTED = "ASSIGNMENT_SUBMITTED";
 
-    // Другие полезные константы
+    /**
+     * Тип события: изменение баланса очков
+     */
+    public static final String POINTS_CHANGED = "POINTS_CHANGED";
+
+    /**
+     * Тип события: повышение уровня
+     */
+    public static final String LEVEL_UP = "LEVEL_UP";
+
+    /**
+     * Тип события: получение достижения
+     */
+    public static final String ACHIEVEMENT_UNLOCKED = "ACHIEVEMENT_UNLOCKED";
+
+    /**
+     * Редкость достижения: обычное
+     */
+    public static final String ACHIEVEMENT_RARITY_COMMON = "COMMON";
+
+    /**
+     * Редкость достижения: редкое
+     */
+    public static final String ACHIEVEMENT_RARITY_RARE = "RARE";
+
+    /**
+     * Редкость достижения: эпическое
+     */
+    public static final String ACHIEVEMENT_RARITY_EPIC = "EPIC";
+
+    /**
+     * Редкость достижения: легендарное
+     */
+    public static final String ACHIEVEMENT_RARITY_LEGENDARY = "LEGENDARY";
 
     /**
      * Максимально возможный балл
