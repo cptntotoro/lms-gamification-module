@@ -102,7 +102,9 @@ public record LevelUpEvent(
     }
 
     /**
-     * Возвращает разницу между уровнями
+     * Получить разницу между уровнями
+     *
+     * @return Разница между уровнями
      */
     public int getLevelDifference() {
         return newLevel - oldLevel;

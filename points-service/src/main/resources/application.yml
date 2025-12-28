@@ -1,0 +1,92 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: points-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/points_db
+    username: postgres
+    password: postgres
+
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: validate
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        jdbc:
+#          batch_size: 20
+#    show-sql: false
+
+#  flyway:
+#    enabled: true
+#    locations: classpath:db/migration
+#
+#kafka:
+#  bootstrap-servers: localhost:9092
+#  consumer:
+#    group-id: points-service-group
+#    auto-offset-reset: earliest
+#    enable-auto-commit: false
+#    properties:
+#      # Настройки для обработки ошибок
+#      enable.auto.commit: false
+#      auto.offset.reset: earliest
+#
+#      # Настройки для retry
+#      max.poll.interval.ms: 300000
+#      session.timeout.ms: 10000
+#      heartbeat.interval.ms: 3000
+#
+#      # Dead Letter Queue
+#      spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+#      spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+#  topics:
+#    events: gamification.events
+#    points-changed: gamification.points.changed
+#    dead-letter: gamification.dlq
+#    events.retry: gamification.events.retry
+#    dlq: gamification.dlq
+#    points.changed: points.changed
+#  spring:
+#    retry:
+#      enabled: true
+
+points:
+  rules:
+    refresh-interval: 300000  # 5 минут
+    default-file: classpath:rules/default-rules.json
+  levels:
+    base-threshold: 1000
+    multiplier: 1.5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+#    export:
+#      prometheus:
+#        enabled: true
+    tags:
+      application: points-service
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: true
+
+logging:
+  level:
+    com.gamification.points: DEBUG
+#    org.springframework.kafka: INFO
